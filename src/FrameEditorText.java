@@ -8,19 +8,28 @@ import java.io.*;
 
 public class FrameEditorText extends JFrame
 {
-
     ImageIcon imageIcon = new ImageIcon("images/t.png");
     JTextPane jTextPane = new JTextPane();
 
+    JPopupMenu jPopupMenu = new JPopupMenu();
+
     JToolBar barra;
     JMenuBar jMenuBar = new JMenuBar();
-    JMenu archivo, editar, fuente, estilo, tamano, ayuda;
+    JMenu archivo, editar, fuente, estilo, tamano, ayuda,
+            fuentePop, estiloPop, tamanoPop, colorPop;
+
     JMenuItem nuevoArchivoJM, abrirArchivoJM, guardarArchivoJM,
             arialJM, serifJM, monospacedJM,
             negritaJM, cursivaJM, subrraJM,
             _12JM, _18JM, _24JM, _30JM,
             mensajeAyudaJM,
-            copiarJM,cortarJM,pegarJM;
+            copiarJM,cortarJM,pegarJM,
+            guardarPop,
+            arialPop, serifPop, monospacedPop,
+            negritaPop, cursivaPop, subrraPop,
+            _12Pop, _18Pop, _24Pop, _30Pop,
+            copiarPop, cortarPop, pegarPop,
+            rojoPop, azulPop, verdePop, negroPop;
 
     public FrameEditorText(){
         startFrame();
@@ -194,7 +203,6 @@ public class FrameEditorText extends JFrame
 
                    int seleccion = fileChooser.showSaveDialog(abrirArchivoJM);
 
-
                    if (seleccion == JFileChooser.APPROVE_OPTION) {
                        // El usuario seleccionó una ubicación y un nombre de archivo para guardar.
                        // Aquí puedes obtener la ubicación seleccionada:
@@ -287,6 +295,49 @@ public class FrameEditorText extends JFrame
         jMenuBar.add(ayuda);
 
 
+//TODO--------------------------------------Menu desplegable JPopupMenu---------------------------------------------------
+        fuentePop = new JMenu("Fuente");
+        estiloPop = new JMenu("Estilo");
+        tamanoPop = new JMenu("Tamaño");
+        colorPop = new JMenu("Color");
+
+        arialPop = new JMenuItem("Arial");
+        arialPop.setFont(new Font("arial",Font.PLAIN,13));
+        fuentePop.add(arialJM).addActionListener(new StyledEditorKit.FontFamilyAction("ariales","arial"));
+
+        serifPop = new JMenuItem("Serif");
+        serifPop.setFont(new Font("serif",Font.PLAIN,13));
+        fuentePop.add(serifJM).addActionListener(new StyledEditorKit.FontFamilyAction("serifes","serif"));
+
+        monospacedPop = new JMenuItem("MonoSpaced");
+        monospacedPop.setFont(new Font("monospaced",Font.PLAIN,13));
+        fuentePop.add(monospacedJM).addActionListener(new StyledEditorKit.FontFamilyAction("monospacedes","monospaced"));
+
+        estiloPop = new JMenu("Estilo");
+        estiloPop.add(negritaPop = new JMenuItem("Negrita",new ImageIcon("images/n.png"))).addActionListener(new StyledEditorKit.BoldAction());
+        estiloPop.add(cursivaPop = new JMenuItem("Cursiva",new ImageIcon("images/k.png"))).addActionListener(new StyledEditorKit.ItalicAction());
+        estiloPop.add(subrraPop = new JMenuItem("Subrrayado",new ImageIcon("images/s.png"))).addActionListener(new StyledEditorKit.UnderlineAction());
+
+        tamanoPop = new JMenu("Tamaño");
+        tamanoPop.add(_12Pop = new JMenuItem("12",new ImageIcon("images/n12.png"))).addActionListener(new StyledEditorKit.FontSizeAction("tam_12",12));
+        tamanoPop.add(_18Pop = new JMenuItem("18",new ImageIcon("images/n18.png"))).addActionListener(new StyledEditorKit.FontSizeAction("tam_18",18));
+        tamanoPop.add(_24Pop = new JMenuItem("24",new ImageIcon("images/n24.png"))).addActionListener(new StyledEditorKit.FontSizeAction("tam_24",24));
+        tamanoPop.add(_30Pop = new JMenuItem("30",new ImageIcon("images/n30.png"))).addActionListener(new StyledEditorKit.FontSizeAction("tam_30",30));
+
+        colorPop.add(rojoPop = new JMenuItem("Rojo",new ImageIcon("images/red.png"))).addActionListener(new StyledEditorKit.ForegroundAction("color_roj",Color.RED));
+        colorPop.add(azulPop = new JMenuItem("Azul",new ImageIcon("images/blue.png"))).addActionListener(new StyledEditorKit.ForegroundAction("color_az",Color.BLUE));
+        colorPop.add(verdePop = new JMenuItem("Verde",new ImageIcon("images/green.png"))).addActionListener(new StyledEditorKit.ForegroundAction("color_ver",Color.GREEN));
+        colorPop.add(negroPop = new JMenuItem("Negro",new ImageIcon("images/black.png"))).addActionListener(new StyledEditorKit.ForegroundAction("color_neg",Color.BLACK));
+
+        jPopupMenu.add(copiarPop = new JMenuItem("Copiar",new ImageIcon("images/copiar.png"))).addActionListener(new StyledEditorKit.CopyAction());
+        jPopupMenu.add(cortarPop = new JMenuItem("Cortar",new ImageIcon("images/cortar.png"))).addActionListener(new DefaultEditorKit.CutAction());
+        jPopupMenu.add(pegarPop = new JMenuItem("Pegar",new ImageIcon("images/pegar.png"))).addActionListener(new DefaultEditorKit.PasteAction());
+        jPopupMenu.add(fuentePop);
+        jPopupMenu.add(estiloPop);
+        jPopupMenu.add(tamanoPop);
+        jPopupMenu.add(colorPop);
+
+        jTextPane.setComponentPopupMenu(jPopupMenu);
 
 
 //TODO---------------------------------------AGREGA LOS ELEMENTOS AL FRAME------------------------------------------------
@@ -294,10 +345,6 @@ public class FrameEditorText extends JFrame
         add(barra,BorderLayout.WEST);
         add(jTextPane,BorderLayout.CENTER);
         add(jMenuBar,BorderLayout.NORTH);
-
-
-
-
 
     }
 
